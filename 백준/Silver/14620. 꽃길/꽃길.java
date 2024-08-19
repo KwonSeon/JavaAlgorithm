@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * 메모리: 20,188KB, 시간: 328ms
+ */
 public class Main {
 
 	static int[] dr = {-1, 1, 0, 0};
@@ -22,25 +25,18 @@ public class Main {
 
 		boolean[][] visited = new boolean[n][n];
 		minCost = Integer.MAX_VALUE;
-		planting(0, visited);
+		planting(0, visited, 0);
 
 		System.out.println(minCost);
 	}
 
-	public static void planting(int count, boolean[][] visited) {
+	public static void planting(int count, boolean[][] visited, int currentCost) {
+
+		if (currentCost > minCost) return;
 
 		// 씨앗 3개를 다 심으면
 		if (count == 3) {
-			// 비용 체크
-			int cost = 0;
-			for (int l = 0; l < n; l++) {
-				for (int m = 0; m < n; m++) {
-					if (visited[l][m]) {
-						cost += flowerBed[l][m];
-					}
-				}
-			}
-			minCost = Math.min(minCost, cost);
+			minCost = currentCost;
 			return;
 		}
 
@@ -51,15 +47,19 @@ public class Main {
 				// 씨앗을 심을 수 있으면
 				if (search(i, j, visited)) {
 					visited[i][j] = true;
+					currentCost += flowerBed[i][j];
 					for (int k = 0; k < 4; k++) {
 						visited[i + dr[k]][j + dc[k]] = true;
+						currentCost += flowerBed[i + dr[k]][j + dc[k]];
 					}
-					planting(count + 1, visited);
+					planting(count + 1, visited, currentCost);
 
 					// 씨앗 심은 상태 복원
 					visited[i][j] = false;
+					currentCost -= flowerBed[i][j];
 					for (int k = 0; k < 4; k++) {
 						visited[i + dr[k]][j + dc[k]] = false;
+						currentCost -= flowerBed[i + dr[k]][j + dc[k]];
 					}
 				}
 

@@ -1,9 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * 메모리: 20,188KB, 시간: 328ms
- */
 public class Main {
 
 	static int[] dr = {-1, 1, 0, 0};
@@ -32,11 +29,9 @@ public class Main {
 
 	public static void planting(int count, boolean[][] visited, int currentCost) {
 
-		if (currentCost > minCost) return;
-
 		// 씨앗 3개를 다 심으면
 		if (count == 3) {
-			minCost = currentCost;
+			minCost = Math.min(minCost, currentCost);
 			return;
 		}
 
@@ -44,38 +39,42 @@ public class Main {
 		for (int i = 1; i < n - 1; i++) {
 			for (int j = 1; j < n - 1; j++) {
 				if (visited[i][j]) continue;
-				// 씨앗을 심을 수 있으면
-				if (search(i, j, visited)) {
-					visited[i][j] = true;
-					currentCost += flowerBed[i][j];
-					for (int k = 0; k < 4; k++) {
-						visited[i + dr[k]][j + dc[k]] = true;
-						currentCost += flowerBed[i + dr[k]][j + dc[k]];
-					}
-					planting(count + 1, visited, currentCost);
+
+				// 씨앗을 심을 수 있는지 체크
+				int cost = calculateCost(i, j, visited);
+				if (cost != -1) {
+					// 씨앗 심기
+					visit(i, j, visited, true);
+					planting(count + 1, visited, currentCost + cost);
 
 					// 씨앗 심은 상태 복원
-					visited[i][j] = false;
-					currentCost -= flowerBed[i][j];
-					for (int k = 0; k < 4; k++) {
-						visited[i + dr[k]][j + dc[k]] = false;
-						currentCost -= flowerBed[i + dr[k]][j + dc[k]];
-					}
+					visit(i, j, visited, false);
 				}
-
 			}
 		}
 	}
 
-	public static boolean search(int r, int c, boolean[][] visited) {
+	// 씨앗 심을 수 있는지 여부와 비용 계산
+	public static int calculateCost(int r, int c, boolean[][] visited) {
+		int cost = flowerBed[r][c];
 		for (int i = 0; i < 4; i++) {
-			// 새 위치
 			int newR = r + dr[i];
 			int newC = c + dc[i];
-			// 경계 체크, 못 심는 경우
-			if (newR < 0 || newR >= n || newC < 0 || newC >= n || visited[newR][newC]) return false;
-
+			if (newR < 0 || newR >= n || newC < 0 || newC >= n || visited[newR][newC]) {
+				return -1; // 심을 수 없는 경우
+			}
+			cost += flowerBed[newR][newC];
 		}
-		return true;
+		return cost;
+	}
+
+	// 방문 상태를 설정하거나 복원
+	public static void visit(int r, int c, boolean[][] visited, boolean state) {
+		visited[r][c] = state;
+		for (int i = 0; i < 4; i++) {
+			int newR = r + dr[i];
+			int newC = c + dc[i];
+			visited[newR][newC] = state;
+		}
 	}
 }

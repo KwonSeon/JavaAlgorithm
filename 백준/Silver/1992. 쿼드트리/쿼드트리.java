@@ -24,7 +24,6 @@ public class Main {
 			}
 		}
 
-		
 		divideAndConquer(0, 0, n);
 		
 
@@ -51,16 +50,15 @@ public class Main {
 
 	public static int compress(int r, int c, int size) {
 
-		int targetNum = image[r][c];
 		for (int i = r; i < r + size; i++) {
 			for (int j = c; j < c + size; j++) {
 				// 일치하지 않으면 -1 리턴
-				if (image[i][j] != targetNum)
+				if (image[i][j] != image[r][c])
 					return -1;
 			}
 		}
 
 		// 일치하면 압축
-		return targetNum;
+		return image[r][c];
 	}
 }

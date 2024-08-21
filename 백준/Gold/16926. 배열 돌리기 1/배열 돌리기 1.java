@@ -3,10 +3,10 @@ import java.util.*;
 
 public class Main {
 
-	static int n, m, r, matrix[][], newMatrix[][];
+	static int n, m, r, matrix[][];
 	static int[] dr = { 1, 0, -1, 0 };
 	static int[] dc = { 0, 1, 0, -1 };
-	static int currentR, currentC, direction, arrLenth;
+	static int currentR, currentC, direction, arrLenth, temp;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,7 +16,6 @@ public class Main {
 		m = Integer.parseInt(st.nextToken());
 		r = Integer.parseInt(st.nextToken());
 		matrix = new int[n][m];
-		newMatrix = new int[n][m];
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < m; j++) {
@@ -56,11 +55,7 @@ public class Main {
 	}
 
 	public static void move(int index) {
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				newMatrix[i][j] = matrix[i][j];
-			}
-		}
+		int temp = matrix[index][index];
 		while (true) {
 			int newR = currentR + dr[direction];
 			int newC = currentC + dc[direction];
@@ -71,8 +66,11 @@ public class Main {
 				newR += dr[direction];
 				newC += dc[direction];
 			}
+			
+			int temp2 = temp;
+			temp = matrix[newR][newC];
 
-			matrix[newR][newC] = newMatrix[currentR][currentC];
+			matrix[newR][newC] = temp2;
 
 			currentR += dr[direction];
 			currentC += dc[direction];

@@ -1,4 +1,7 @@
 import java.io.*;
+/**
+ * 메모리: 20,628KB, 시간: 172ms
+ */
 import java.util.*;
 
 public class Solution {
@@ -30,9 +33,9 @@ public class Solution {
 			// 값 계산
 			maxResult = Integer.MIN_VALUE;
 			minResult = Integer.MAX_VALUE;
-			
+
 			permutation(1, usedOperator, numbers[0]);
-			
+
 			sb.append("#").append(t).append(" ").append(maxResult - minResult).append('\n');
 		}
 
@@ -48,12 +51,8 @@ public class Solution {
 
 		// 개수만큼 뽑으면 최대, 최소 갱신
 		if (index == n) {
-			if (currentNum > maxResult) {
-				maxResult = currentNum;
-			} 
-			if (currentNum < minResult) {
-				minResult = currentNum;
-			}
+			minResult = Math.min(minResult, currentNum);
+			maxResult = Math.max(maxResult, currentNum);
 			return;
 		}
 

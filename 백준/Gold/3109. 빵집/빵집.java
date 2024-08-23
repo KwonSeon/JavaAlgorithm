@@ -1,12 +1,14 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * 메모리: 41,964,120KB, 시간: 312ms
+ */
 public class Main {
 
 	static int R, C, cnt;
 	static int[] dr = { -1, 0, 1 };
 	static int[] dc = { 1, 1, 1 };
-	static boolean[][] visited;
 	static char[][] map;
 
 	public static void main(String[] args) throws IOException {
@@ -22,7 +24,6 @@ public class Main {
 			}
 		}
 
-		visited = new boolean[R][C];
 		for (int i = 0; i < R; i++) {
 			dfs(i, 0);
 		}
@@ -39,10 +40,10 @@ public class Main {
 	public static boolean dfs(int r, int c) {
 
 		// 파이프 연결을 못할 시
-		if (map[r][c] != '.' || visited[r][c])
+		if (map[r][c] != '.')
 			return false;
 
-		visited[r][c] = true;
+		map[r][c] = 'x';
 		
 		// 마지막까지 파이프 연결을 성공할 때
 		if (c == C - 1) {

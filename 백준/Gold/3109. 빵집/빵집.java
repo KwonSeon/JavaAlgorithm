@@ -1,26 +1,24 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * 메모리: 52,120KB, 시간: 380ms
- */
 public class Main {
 
-	static int R, C, map[][], cnt;
+	static int R, C, cnt;
 	static int[] dr = { -1, 0, 1 };
 	static int[] dc = { 1, 1, 1 };
 	static boolean[][] visited;
+	static char[][] map;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		R = Integer.parseInt(st.nextToken());
 		C = Integer.parseInt(st.nextToken());
-		map = new int[R][C];
+		map = new char[R][C];
 		for (int i = 0; i < R; i++) {
 			String line = br.readLine();
 			for (int j = 0; j < C; j++) {
-				map[i][j] = makeMap(line.charAt(j));
+				map[i][j] = line.charAt(j);
 			}
 		}
 
@@ -30,10 +28,9 @@ public class Main {
 		}
 
 		for (int i = 0; i < R; i++) {
-			if (map[i][C - 1] == 1)
+			if (map[i][C - 1] == 'x')
 				cnt++;
 		}
-
 
 
 		System.out.println(cnt);
@@ -42,14 +39,14 @@ public class Main {
 	public static boolean dfs(int r, int c) {
 
 		// 파이프 연결을 못할 시
-		if (map[r][c] != 0 || visited[r][c])
+		if (map[r][c] != '.' || visited[r][c])
 			return false;
 
 		visited[r][c] = true;
 		
 		// 마지막까지 파이프 연결을 성공할 때
 		if (c == C - 1) {
-			map[r][c] = 1;
+			map[r][c] = 'x';
 			return true;
 		}
 
@@ -68,11 +65,4 @@ public class Main {
 		return false;
 	}
 
-	public static int makeMap(char d) {
-		if (d == '.') {
-			return 0;
-		} else {
-			return 1;
-		}
-	}
 }

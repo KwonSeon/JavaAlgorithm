@@ -1,9 +1,13 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * 메모리: 88,132KB, 시간: 355ms
+ */
+
 public class Solution {
 
-	static int d, w, k, minChemicals, film[][];
+	static int d, w, k, minChemicals, film[][], A[], B[];
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,8 +29,11 @@ public class Solution {
 			}
 
 			minChemicals = Integer.MAX_VALUE;
+			A = new int[w];
+			B = new int[w];
+			Arrays.fill(B, 1);
 
-			if (impactTest(film)) {
+			if (impactTest()) {
 				minChemicals = 0;
 			} else {
 				subset(0, 0);
@@ -55,7 +62,7 @@ public class Solution {
 		if (index == d) {
 			if (cnt < 1)
 				return;
-			if (!impactTest(film))
+			if (!impactTest())
 				return;
 
 			minChemicals = cnt;
@@ -64,21 +71,21 @@ public class Solution {
 		}
 
 		// 약품을 사용할 depth의 배열을 저장
-		int[] originalArray = film[index].clone();
+		int[] temp = film[index];
 
 		// 약품을 사용하지 않고
 		subset(index + 1, cnt);
 
 		// 약품 A를 사용
-		Arrays.fill(film[index], 0);
+		film[index] = A;
 		subset(index + 1, cnt + 1);
 
 		// 약품 B를 사용
-		Arrays.fill(film[index], 1);
+		film[index] = B;
 		subset(index + 1, cnt + 1);
 
 		// 원래대로 되돌리기
-		film[index] = originalArray;
+		film[index] = temp;
 
 	}
 
@@ -88,7 +95,7 @@ public class Solution {
 	 * @param matrix 테스트 할 배열
 	 * @return 통과 true, 실패 false
 	 */
-	public static boolean impactTest(int[][] matrix) {
+	public static boolean impactTest() {
 		if (k == 1)
 			return true;
 
@@ -98,7 +105,7 @@ public class Solution {
 			int cnt = 1;
 			for (int i = 1; i < d; i++) {
 				// 이전과 특성이 같으면
-				if (matrix[i][j] == matrix[i - 1][j]) {
+				if (film[i][j] == film[i - 1][j]) {
 					cnt++;
 					// 통과시
 					if (cnt == k) {

@@ -1,9 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * 메모리: 41,964,120KB, 시간: 312ms
- */
+
 public class Main {
 
 	static int R, C, cnt;
@@ -25,11 +23,7 @@ public class Main {
 		}
 
 		for (int i = 0; i < R; i++) {
-			dfs(i, 0);
-		}
-
-		for (int i = 0; i < R; i++) {
-			if (map[i][C - 1] == 'x')
+			if (dfs(i, 0))
 				cnt++;
 		}
 
@@ -44,10 +38,9 @@ public class Main {
 			return false;
 
 		map[r][c] = 'x';
-		
+
 		// 마지막까지 파이프 연결을 성공할 때
 		if (c == C - 1) {
-			map[r][c] = 'x';
 			return true;
 		}
 

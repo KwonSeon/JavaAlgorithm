@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * 메모리: 52,120KB, 시간: 380ms
+ */
 public class Main {
 
 	static int R, C, map[][], cnt;
@@ -39,14 +42,14 @@ public class Main {
 	public static boolean dfs(int r, int c) {
 
 		// 파이프 연결을 못할 시
-		if (map[r][c] == 1 || visited[r][c])
+		if (map[r][c] != 0 || visited[r][c])
 			return false;
 
-		map[r][c] = 1;
 		visited[r][c] = true;
 		
 		// 마지막까지 파이프 연결을 성공할 때
 		if (c == C - 1) {
+			map[r][c] = 1;
 			return true;
 		}
 
@@ -62,7 +65,6 @@ public class Main {
 			}
 		}
 
-		map[r][c] = 0;
 		return false;
 	}
 

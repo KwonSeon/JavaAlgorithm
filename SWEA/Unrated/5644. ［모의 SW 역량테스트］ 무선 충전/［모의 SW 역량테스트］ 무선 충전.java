@@ -4,10 +4,52 @@ import java.util.*;
 public class Solution {
 
 	static int m, a, maxAmount;
-	static int[] locationA, locationB, movementInfoA, movementInfoB;
-	static int[][] bc;
+	static int[] movementInfoA, movementInfoB;
 	static int[] dr = { 0, -1, 0, 1, 0 };
 	static int[] dc = { 0, 0, 1, 0, -1 };
+	static User locationA, locationB;
+	static BC[] bc;
+
+	/**
+	 * 사용자 위치
+	 */
+	static class User {
+		int r;
+		int c;
+
+		/**
+		 * 사용자 위치 정보
+		 * 
+		 * @param r 행
+		 * @param c 열
+		 */
+		public User(int r, int c) {
+			super();
+			this.r = r;
+			this.c = c;
+		}
+
+		public void move(int dr, int dc) {
+			this.r += dr;
+			this.c += dc;
+		}
+
+	}
+
+	static class BC {
+		int r;
+		int c;
+		int d;
+		int p;
+
+		public BC(int r, int c, int d, int p) {
+			super();
+			this.r = r;
+			this.c = c;
+			this.d = d;
+			this.p = p;
+		}
+	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,7 +76,7 @@ public class Solution {
 				movementInfoB[i] = Integer.parseInt(st.nextToken());
 			}
 			// bc 정보
-			bc = new int[a][];
+			bc = new BC[a];
 			for (int i = 0; i < a; i++) {
 				st = new StringTokenizer(br.readLine());
 				// c, r로 입력되므로 변경 필요
@@ -43,12 +85,12 @@ public class Solution {
 				int d = Integer.parseInt(st.nextToken());
 				int p = Integer.parseInt(st.nextToken());
 				// 행, 열, 범위, 파워
-				bc[i] = new int[] { r, c, d, p };
+				bc[i] = new BC(r, c, d, p);
 			}
 
 			// 위치 초기화
-			locationA = new int[] { 1, 1 };
-			locationB = new int[] { 10, 10 };
+			locationA = new User(1, 1);
+			locationB = new User(10, 10);
 
 			// 최대 충전량
 			maxAmount = charge();
@@ -68,15 +110,13 @@ public class Solution {
 	}
 
 	/**
-	 * @param r1 행1
-	 * @param c1 열1
-	 * @param r2 행2
-	 * @param c2 열2
-	 * @return 두 지점 사이의 거리
+	 * @param 사용자
+	 * @param 배터리차저
+	 * @return 두 좌표 사이의 거리
 	 */
-	public static int distance(int r1, int c1, int r2, int c2) {
+	public static int distance(User user, BC bc) {
 
-		return (Math.abs(r1 - r2) + Math.abs(c1 - c2));
+		return (Math.abs(user.r - bc.r) + Math.abs(user.c - bc.c));
 	}
 
 	/**
@@ -94,11 +134,11 @@ public class Solution {
 		// 충전 가능한 인덱스 찾기
 		for (int i = 0; i < a; i++) {
 			// a
-			if (distance(locationA[0], locationA[1], bc[i][0], bc[i][1]) <= bc[i][2]) {
+			if (distance(locationA, bc[i]) <= bc[i].d) {
 				chargerA[i] = true;
 			}
 			// b
-			if (distance(locationB[0], locationB[1], bc[i][0], bc[i][1]) <= bc[i][2]) {
+			if (distance(locationB, bc[i]) <= bc[i].d) {
 				chargerB[i] = true;
 			}
 		}
@@ -112,9 +152,9 @@ public class Solution {
 
 				// 충전 여부에 따라 값 지정
 				if (chargerA[i])
-					chargeA = bc[i][3];
+					chargeA = bc[i].p;
 				if (chargerB[j])
-					chargeB = bc[j][3];
+					chargeB = bc[j].p;
 
 				// 같은 충전기를 사용할 때 반으로 줄인다
 				if (i == j && chargerA[i] && chargerB[i]) {
@@ -132,11 +172,9 @@ public class Solution {
 	public static void move(int directionA, int directionB) {
 
 		// a 이동
-		locationA[0] += dr[directionA];
-		locationA[1] += dc[directionA];
+		locationA.move(dr[directionA], dc[directionA]);
 
 		// b 이동
-		locationB[0] += dr[directionB];
-		locationB[1] += dc[directionB];
+		locationB.move(dr[directionB], dc[directionB]);
 	}
 }

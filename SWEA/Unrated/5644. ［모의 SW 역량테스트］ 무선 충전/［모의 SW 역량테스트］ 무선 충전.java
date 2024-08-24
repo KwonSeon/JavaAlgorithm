@@ -172,9 +172,11 @@ public class Solution {
 	public static void move(int directionA, int directionB) {
 
 		// a 이동
-		locationA.move(dr[directionA], dc[directionA]);
+		locationA.r += dr[directionA];
+		locationA.c += dc[directionA];
 
 		// b 이동
-		locationB.move(dr[directionB], dc[directionB]);
+		locationB.r += dr[directionB];
+		locationB.c += dc[directionB];
 	}
 }

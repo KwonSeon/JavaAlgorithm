@@ -7,13 +7,12 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		int n = Integer.parseInt(st.nextToken());
-		String line = br.readLine();
-		char temp = line.charAt(0);
+		char[] line = br.readLine().toCharArray();
+		char temp = line[0];
 		int cnt = 0;
-		for (int i = 1; i < n; i++) {
-			char currentChar = line.charAt(i);
-			if (currentChar == temp) continue;
-			temp = currentChar;
+		for (char character : line) {
+			if (character == temp) continue;
+			temp = character;
 			cnt++;
 		}
 

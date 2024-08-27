@@ -114,10 +114,9 @@ public class Solution {
 	 * @param 배터리차저
 	 * @return 두 좌표 사이의 거리
 	 */
-	public static boolean isAvailable(User user, BC bc) {
+	public static int distance(User user, BC bc) {
 
-		 if(Math.abs(user.r - bc.r) + Math.abs(user.c - bc.c) <= bc.d) return true;
-		 return false;
+		return (Math.abs(user.r - bc.r) + Math.abs(user.c - bc.c));
 	}
 
 	/**
@@ -135,11 +134,11 @@ public class Solution {
 		// 충전 가능한 인덱스 찾기
 		for (int i = 0; i < a; i++) {
 			// a
-			if (isAvailable(locationA, bc[i])) {
+			if (distance(locationA, bc[i]) <= bc[i].d) {
 				chargerA[i] = true;
 			}
 			// b
-			if (isAvailable(locationB, bc[i])) {
+			if (distance(locationB, bc[i]) <= bc[i].d) {
 				chargerB[i] = true;
 			}
 		}

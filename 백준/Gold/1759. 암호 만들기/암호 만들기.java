@@ -28,29 +28,24 @@ public class Main {
 
 		}
 
-		boolean[] isSelected = new boolean[c];
-		combination(0, 0, isSelected, 0, 0);
+		char[] password = new char[l];
+		combination(0, 0, password, 0, 0);
 
 		System.out.println(sb.toString());
 	}
 
-	public static void combination(int index, int start, boolean[] isSelected, int consonant, int vowel) {
+	public static void combination(int index, int start, char[] password, int consonant, int vowel) {
 
 		if (index == l) {
 			if (consonant < 2 || vowel < 1)
 				return;
-			for (int j = 0; j < c; j++) {
-				// 사용하지 않으면 통과
-				if (!isSelected[j])
-					continue;
-				sb.append(alphabet[j]);
-			}
-			sb.append('\n');
+			sb.append(password).append('\n');
 			return;
 		}
 
 		for (int i = start; i < c; i++) {
 
+			// 자음, 모음 개수
 			int isConsonant = 0;
 			int isVowel = 0;
 			if (isVowel(alphabet[i])) {
@@ -58,9 +53,9 @@ public class Main {
 			} else {
 				isConsonant++;
 			}
-			isSelected[i] = true;
-			combination(index + 1, i + 1, isSelected, consonant + isConsonant, vowel + isVowel);
-			isSelected[i] = false;
+			// 사용할 암호 저장
+			password[index] = alphabet[i];
+			combination(index + 1, i + 1, password, consonant + isConsonant, vowel + isVowel);
 		}
 
 	}

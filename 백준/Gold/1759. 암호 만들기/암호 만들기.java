@@ -13,13 +13,20 @@ public class Main {
 		l = Integer.parseInt(st.nextToken());
 		c = Integer.parseInt(st.nextToken());
 		String[] line = br.readLine().split(" ");
-		alphabet = new char[c];
+		// 알파벳 입력 받기
+		boolean[] alphabets = new boolean['z' + 1];
 		for (int i = 0; i < c; i++) {
-			alphabet[i] = line[i].charAt(0);
+			alphabets[line[i].charAt(0)] = true;
 		}
-		
-		// 알파벳 정렬
-		Arrays.sort(alphabet);
+
+		// 알파벳 정렬 boolean 사용
+		alphabet = new char[c];
+		int idx = 0;
+		for (int i = 'a'; i <= 'z'; i++) {
+			if (alphabets[i])
+				alphabet[idx++] = (char) i;
+
+		}
 
 		boolean[] isSelected = new boolean[c];
 		combination(0, 0, isSelected, 0, 0);

@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
 public class Solution {
 
 	static int m, a, maxAmount;
@@ -160,7 +159,7 @@ public class Solution {
 
 				// 같은 충전기를 사용할 때 반으로 줄인다
 				if (i == j && chargerA[i] && chargerB[i]) {
-					charge = Math.max(charge, (chargeA + chargeB) / 2);
+					charge = Math.max(charge, bc[i].p);
 					// 충전량 갱신
 				} else {
 					charge = Math.max(charge, chargeA + chargeB);

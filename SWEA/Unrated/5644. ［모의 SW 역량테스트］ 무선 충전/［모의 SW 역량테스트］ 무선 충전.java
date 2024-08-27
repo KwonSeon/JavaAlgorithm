@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 
+
 public class Solution {
 
 	static int m, a, maxAmount;
@@ -114,9 +115,10 @@ public class Solution {
 	 * @param 배터리차저
 	 * @return 두 좌표 사이의 거리
 	 */
-	public static int distance(User user, BC bc) {
+	public static boolean isAvailable(User user, BC bc) {
 
-		return (Math.abs(user.r - bc.r) + Math.abs(user.c - bc.c));
+		 if(Math.abs(user.r - bc.r) + Math.abs(user.c - bc.c) <= bc.d) return true;
+		 return false;
 	}
 
 	/**
@@ -134,11 +136,11 @@ public class Solution {
 		// 충전 가능한 인덱스 찾기
 		for (int i = 0; i < a; i++) {
 			// a
-			if (distance(locationA, bc[i]) <= bc[i].d) {
+			if (isAvailable(locationA, bc[i])) {
 				chargerA[i] = true;
 			}
 			// b
-			if (distance(locationB, bc[i]) <= bc[i].d) {
+			if (isAvailable(locationB, bc[i])) {
 				chargerB[i] = true;
 			}
 		}
@@ -172,11 +174,9 @@ public class Solution {
 	public static void move(int directionA, int directionB) {
 
 		// a 이동
-		locationA.r += dr[directionA];
-		locationA.c += dc[directionA];
+		locationA.move(dr[directionA], dc[directionA]);
 
 		// b 이동
-		locationB.r += dr[directionB];
-		locationB.c += dc[directionB];
+		locationB.move(dr[directionB], dc[directionB]);
 	}
 }

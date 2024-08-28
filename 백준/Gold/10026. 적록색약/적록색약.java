@@ -1,11 +1,13 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * 메모리: 12,132KB, 시간: 72ms
+ */
 public class Main {
 
 	static int n;
 	static char[][] matrix, blindMatrix;
-	static boolean[][] visited;
 	static int[] dr = { -1, 1, 0, 0 };
 	static int[] dc = { 0, 0, -1, 1 };
 
@@ -32,7 +34,6 @@ public class Main {
 
 		// 정상인
 		int cnt1 = 0;
-		visited = new boolean[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if (!dfs(i, j, matrix[i][j]))
@@ -44,7 +45,6 @@ public class Main {
 		// 색맹
 		matrix = blindMatrix;
 		int cnt2 = 0;
-		visited = new boolean[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if (!dfs(i, j, matrix[i][j]))
@@ -61,11 +61,11 @@ public class Main {
 	public static boolean dfs(int r, int c, char color) {
 
 		// 이미 방문했거나 현재 색과 다른 경우
-		if (visited[r][c] || matrix[r][c] != color)
+		if (matrix[r][c] != color || matrix[r][c] == 'D')
 			return false;
 
 		// 방문 처리
-		visited[r][c] = true;
+		matrix[r][c] = 'D';
 
 		// 사방탐색
 		for (int i = 0; i < 4; i++) {

@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * 메모리: 120,396KB, 시간: 719ms
+ */
 public class Solution {
 
 	static int n, m, k, cnt;
@@ -112,7 +115,7 @@ public class Solution {
 				// 저장한 미생물 중 겹치는 경우가 없으면 통과
 				if (microbeIndex.size() < 2) {
 					// 미생물의 인덱스 초기화
-					microbeIndex = new ArrayList<Integer>();
+					microbeIndex.clear();
 
 					// 인덱스에 현재 미생물 인덱스 넣기
 					microbeIndex.add(i);
@@ -139,7 +142,7 @@ public class Solution {
 					microbe[idx].unit = temp;
 
 				// 미생물의 인덱스 초기화
-				microbeIndex = new ArrayList<Integer>();
+				microbeIndex.clear();
 
 				// 인덱스에 현재 미생물 인덱스 넣기
 				microbeIndex.add(i);

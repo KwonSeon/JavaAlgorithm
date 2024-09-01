@@ -1,31 +1,33 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Main {
 
-	static int n, tip[];
-	static long tips;
+    static int n;
+    static Integer[] tip;
+    static long tips;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		n = Integer.parseInt(st.nextToken());
-		tip = new int[n];
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			tip[i] = Integer.parseInt(st.nextToken());
-		}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        tip = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            tip[i] = Integer.parseInt(br.readLine());
+        }
 
-		Arrays.sort(tip);
+        // 내림차순 정렬
+        Arrays.sort(tip, Collections.reverseOrder());
 
-		for (int i = n - 1; i >= 0; i--) {
-			long result = (long) tip[i] - (long) (n - 1 - i);
+        for (int i = 0; i < n; i++) {
+            long result = tip[i] - i;
+            if (result > 0) {
+                tips += result;
+            }
+        }
 
-			if (result <= 0) continue;
-
-			tips += result;
-		}
-
-		System.out.println(tips);
-	}
+        System.out.println(tips);
+    }
 }

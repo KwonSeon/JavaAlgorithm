@@ -3,35 +3,46 @@ import java.util.*;
 
 public class Main {
 
-	static int n, table[][];
+	static int n;
+	static Meeting[] table;
+
+	static class Meeting {
+		int startTime;
+		int endTime;
+
+		public Meeting(int startTime, int endTime) {
+			this.startTime = startTime;
+			this.endTime = endTime;
+		}
+	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		n = Integer.parseInt(st.nextToken());
-		table = new int[n][2];
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			table[i][0] = Integer.parseInt(st.nextToken());
-			table[i][1] = Integer.parseInt(st.nextToken());
-		}
-
-		// 시간 오름차순 정렬
-		Arrays.sort(table, (o1, o2) -> {
-			if (o1[1] != o2[1]) {
-				return o1[1] - o2[1];
-			} else {
-				return o1[0] - o2[0];
+		PriorityQueue<Meeting> pq = new PriorityQueue<>(new Comparator<Meeting>() {
+			@Override
+			public int compare(Meeting o1, Meeting o2) {
+				return o1.endTime == o2.endTime ? o1.startTime - o2.startTime : o1.endTime - o2.endTime;
 			}
 		});
+
+		for (int i = 0; i < n; i++) {
+			st = new StringTokenizer(br.readLine());
+			int s = Integer.parseInt(st.nextToken());
+			int e = Integer.parseInt(st.nextToken());
+			pq.offer(new Meeting(s, e));
+		}
+
 
 		int cnt = 0;
 		int lastEndTime = 0;
 
-		for (int i = 0; i < n; i++) {
-			if (table[i][0] >= lastEndTime) {
-				lastEndTime = table[i][1];
+		while (n-->0) {
+			Meeting meeting = pq.poll();
+			if (meeting.startTime >= lastEndTime) {
+				lastEndTime = meeting.endTime;
 				cnt++;
 			}
 		}

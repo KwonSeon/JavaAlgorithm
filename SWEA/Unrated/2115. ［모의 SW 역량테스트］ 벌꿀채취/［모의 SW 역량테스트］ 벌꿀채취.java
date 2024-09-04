@@ -1,9 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * 메모리: 32,636KB, 시간: 165ms
- */
 public class Solution {
 
 	static int N, M, C, beehive[][], maxEarning, currentEarning, hive[][];
@@ -35,15 +32,8 @@ public class Solution {
 				// 한 줄을 벗어나는 경우 다음으로
 				if (c1 > N - M)
 					continue;
-
-				hive = new int[M][2];
-				int idx = 0;
-				while (idx < M) {
-					hive[idx] = new int[] { r1, c1 + idx };
-					idx++;
-				}
 				currentEarning = 0;
-				subset(0, 0, 0);
+				subset(0, 0, 0, r1, c1);
 				int maxEarning1 = currentEarning;
 
 				for (int j = i + M; j < N * N; j++) {
@@ -52,15 +42,8 @@ public class Solution {
 					// 한 줄을 벗어나는 경우 다음으로
 					if (c2 > N - M)
 						continue;
-					// 채취할 꿀통의 인덱스 저장
-					hive = new int[M][2];
-					idx = 0;
-					while (idx < M) {
-						hive[idx] = new int[] { r2, c2 + idx };
-						idx++;
-					}
 					currentEarning = 0;
-					subset(0, 0, 0);
+					subset(0, 0, 0, r2, c2);
 					int maxEarning2 = currentEarning;
 
 					maxEarning = Math.max(maxEarning, maxEarning1 + maxEarning2);
@@ -74,7 +57,7 @@ public class Solution {
 		System.out.println(sb);
 	}
 
-	public static void subset(int idx, int currentHoney, int current) {
+	public static void subset(int idx, int currentHoney, int current, int startR, int startC) {
 
 		// 채취할 수 있는 최대 양을 넘으면 return
 		if (currentHoney > C)
@@ -88,10 +71,10 @@ public class Solution {
 		}
 
 		// 채취
-		int honey = beehive[hive[idx][0]][hive[idx][1]];
-		subset(idx + 1, currentHoney + honey, current + honey * honey);
+		int honey = beehive[startR][startC];
+		subset(idx + 1, currentHoney + honey, current + honey * honey, startR, startC + 1);
 		// 미채취
-		subset(idx + 1, currentHoney, current);
+		subset(idx + 1, currentHoney, current, startR, startC + 1);
 	}
 
 }

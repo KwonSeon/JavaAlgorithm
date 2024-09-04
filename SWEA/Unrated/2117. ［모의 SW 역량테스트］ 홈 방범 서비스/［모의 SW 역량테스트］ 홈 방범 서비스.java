@@ -43,7 +43,7 @@ public class Solution {
 
 			maxCnt = 0;
 			k = 1;
-			while (k <= 2 * n) {
+			while (k <= n+1) {
 				earning = 0;
 				// 사용할 맵
 				matrix = new int[n][n];

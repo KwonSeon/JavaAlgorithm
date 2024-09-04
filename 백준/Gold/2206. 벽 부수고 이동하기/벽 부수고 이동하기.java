@@ -3,7 +3,8 @@ import java.util.*;
 
 public class Main {
 
-	static int n, m, map[][];
+	static int n, m;
+	static char[][] map;
 	static boolean[][][] visited;
 
 	static int[] dr = { -1, 1, 0, 0 };
@@ -28,11 +29,11 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
-		map = new int[n][m];
+		map = new char[n][m];
 		for (int i = 0; i < n; i++) {
-			String[] line = br.readLine().split("");
+			char[] line = br.readLine().toCharArray();
 			for (int j = 0; j < m; j++) {
-				map[i][j] = Integer.parseInt(line[j]);
+				map[i][j] = line[j];
 			}
 		}
 
@@ -65,7 +66,7 @@ public class Main {
 				if (visited[current.state ? 1 : 0][nr][nc])
 					continue;
 				// 벽일 때
-				if (map[nr][nc] == 1) {
+				if (map[nr][nc] == '1') {
 					// 벽을 이미 한 번 부쉈을 때 통과
 					if (current.state)
 						continue;

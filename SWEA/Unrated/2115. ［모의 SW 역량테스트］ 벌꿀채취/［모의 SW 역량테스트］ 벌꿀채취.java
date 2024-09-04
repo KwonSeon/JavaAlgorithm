@@ -76,10 +76,10 @@ public class Solution {
 			return;
 
 		// 최대 양 갱신
-		maxEarning1 = Math.max(maxEarning1, currentEarning);
-		
-		// 최대치 초과하면 종료
-		if (idx == M) return;
+        if (idx == M) {
+			maxEarning1 = Math.max(maxEarning1, currentEarning);
+		 	return;
+        }
 
 		// 채취
 		int honey = beehive[hive1[idx][0]][hive1[idx][1]];
@@ -95,11 +95,11 @@ public class Solution {
 			return;
 
 		// 최대 양 갱신
-		maxEarning2 = Math.max(maxEarning2, currentEarning);
-		
-		// 최대치 초과하면 종료
-		if (idx == M) return;
-
+        if (idx == M){
+			maxEarning2 = Math.max(maxEarning2, currentEarning);
+		 	return;
+        }
+        
 		// 채취
 		int honey = beehive[hive2[idx][0]][hive2[idx][1]];
 		subset2(idx + 1, currentHoney + honey, currentEarning + honey * honey);

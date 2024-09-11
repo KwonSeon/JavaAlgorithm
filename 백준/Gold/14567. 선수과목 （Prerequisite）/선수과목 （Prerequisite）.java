@@ -60,11 +60,13 @@ public class Main {
 					if (matrix[i][current] == 1) {
 						boolean possible = true;
 						for (int j = 1; j <= n; j++) {
+                            if (isCompleted[j]) 
+                                continue;
 							if (matrix[i][j] == 1) {
-								if (!isCompleted[j]) {
+								
 									possible = false;
 									break;
-								}
+								
 							}
 						}
 

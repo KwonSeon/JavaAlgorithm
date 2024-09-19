@@ -19,8 +19,6 @@ public class Main {
 		for (int i = 2; i <= n; i++) {
 			int temp = 1;
 			while (i * ++temp <= n) {
-				if (decimal[i * temp]) continue;
-
 				decimal[i * temp] = true;
 			}
 		}

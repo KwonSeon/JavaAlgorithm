@@ -1,63 +1,68 @@
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
-
 import java.io.*;
 import java.util.*;
 
 public class Main {
 
-	static int n, m, minCnt;
-	static char[][] board;
+    static int n, m, minCnt;
+    static char[][] board;
+    static char[][] whiteFirst = new char[8][8];
+    static char[][] blackFirst = new char[8][8];
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-		board = new char[n][m];
-		for (int i = 0; i < n; i++) {
-			char[] line = br.readLine().toCharArray();
-			for (int j = 0; j < m; j++) {
-				board[i][j] = line[j];
-			}
-		}
+        // 보드 입력 받기
+        board = new char[n][m];
+        for (int i = 0; i < n; i++) {
+            board[i] = br.readLine().toCharArray();
+        }
 
-		minCnt = Integer.MAX_VALUE;
+        // 미리 흰색 시작, 검정색 시작 보드 구성
+        initBoard();
 
-		for (int i = 0; i <= n - 8; i++) {
-			for (int j = 0; j <= m - 8; j++) {
-				minCnt = Math.min(minCnt, paint(i, j, 'W'));
-				minCnt = Math.min(minCnt, paint(i, j, 'B'));
-			}
-		}
+        minCnt = Integer.MAX_VALUE;
 
-		System.out.println(minCnt);
+        for (int i = 0; i <= n - 8; i++) {
+            for (int j = 0; j <= m - 8; j++) {
+                minCnt = Math.min(minCnt, countMismatch(i, j, whiteFirst));
+                minCnt = Math.min(minCnt, countMismatch(i, j, blackFirst));
+            }
+        }
 
-	}
+        System.out.println(minCnt);
+    }
 
-	public static int paint(int r, int c, char color) {
-		int cnt = 0;
+    // 흰색 먼저, 검정색 먼저 보드를 미리 생성
+    private static void initBoard() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((i + j) % 2 == 0) {
+                    whiteFirst[i][j] = 'W';
+                    blackFirst[i][j] = 'B';
+                } else {
+                    whiteFirst[i][j] = 'B';
+                    blackFirst[i][j] = 'W';
+                }
+            }
+        }
+    }
 
-		for (int i = r; i < r + 8; i++) {
-			if (cnt >= minCnt) break;
-			for (int j = c; j < c + 8; j++) {
-				if (j % 2 == 0) {
-					if (i % 2 == 0) {
-						if (board[i][j] != color) cnt++;
-					} else {
-						if (board[i][j] == color) cnt++;
-					}
-				} else if (j % 2 == 1) {
-					if (i % 2 == 1) {
-						if (board[i][j] != color) cnt++;
-					} else {
-						if (board[i][j] == color) cnt++;
-					}
-				}
-			}
-		}
+    // 보드 차이 계산
+    public static int countMismatch(int r, int c, char[][] targetBoard) {
+        int cnt = 0;
 
-		return cnt;
-	}
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[r + i][c + j] != targetBoard[i][j]) {
+                    cnt++;
+                }
+            }
+        }
+
+        return cnt;
+    }
 }

@@ -3,7 +3,8 @@ import java.util.*;
 
 public class Main {
 
-	static int n, m;
+	static int n, m, cnt[];
+	static final int addNum = 10_000_000;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -11,15 +12,12 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		n = Integer.parseInt(st.nextToken());
-		HashMap<Integer, Integer> map = new HashMap<>();
+		cnt = new int[2 * addNum + 1];
 
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < n; i++) {
 			int input = Integer.parseInt(st.nextToken());
-			if (map.containsKey(input))
-				map.put(input, map.get(input) + 1);
-			else
-				map.put(input, 1);
+			cnt[input + addNum]++;
 		}
 
 		st = new StringTokenizer(br.readLine());
@@ -28,10 +26,7 @@ public class Main {
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < m; i++) {
 			int input = Integer.parseInt(st.nextToken());
-			if (map.containsKey(input))
-				sb.append(map.get(input)).append(" ");
-			else
-				sb.append(0).append(" ");
+			sb.append(cnt[input + addNum]).append(" ");
 		}
 
 		System.out.println(sb.toString());

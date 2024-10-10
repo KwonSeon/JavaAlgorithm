@@ -7,7 +7,6 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		n = Integer.parseInt(st.nextToken());
@@ -20,9 +19,10 @@ public class Main {
 			String person1 = st.nextToken();
 			String person2 = st.nextToken();
 
-			if (set.contains(person1) || set.contains(person2)) {
-				set.add(person1);
+			if (set.contains(person1)) {
 				set.add(person2);
+			} else if (set.contains(person2)) {
+				set.add(person1);
 			}
 		}
 
